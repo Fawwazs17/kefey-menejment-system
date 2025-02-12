@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>MENU</h1>
+<div class="container">
+    <!-- Add/Edit Form -->
+    <div class="form-container">
+        <h2>{{ 'Edit Menu Item' if edit_item else 'Add Menu Item' }}</h2>
+        <form method="POST" action="/add_menu">
+            <input type="hidden" name="edit_item_id" value="{{ edit_item[0] if edit_item else '' }}">
+            
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" placeholder="Item Name" 
+                   value="{{ edit_item[1] if edit_item else '' }}" required>
+            <br><br>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" placeholder="Price" step="0.01" 
+                   value="{{ edit_item[2] if edit_item else '' }}" required>
+            <br><br>
+
+            <input type="submit" value="{{ 'Update Menu' if edit_item else 'Add Menu' }}">
+            {% if edit_item %}
+                <a href="/add_menu"><button type="submit" class="cancel-button">Cancel</button></a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Menu Table -->
+    <div class="table-container">
+        <h2>Menu</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Price (RM)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in menu_items %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>
+                        <!-- Edit Button -->
+                        <a href="/add_menu?edit_item_id={{ item[0] }}">Edit</a>
+                        <!-- Delete Button -->
+                        <a href="/delete_menu/{{ item[0] }}" 
+                           onclick="return confirm('Are you sure you want to delete this item?');">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

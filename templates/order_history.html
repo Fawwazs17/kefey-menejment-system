@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>ORDER HISTORY</h1>
+<table>
+    <tr>
+        <th>Order ID</th>
+        <th>Order Time</th>
+
+        <th>Payment Method</th>
+        <th>Status</th>
+        <th>Total (RM)</th>
+        <th>Actions</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order[0] }}</td>
+        <td>{{ order[1] }}</td>
+        <td>{{ order[2] }}</td>
+        <td>{{ order[3] }}</td>
+        <td>{{ order[4] }}</td>
+
+        <td>
+            <a href="/toggle_payment/{{ order[0] }}">Paid?</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

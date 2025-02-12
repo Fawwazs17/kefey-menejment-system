@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>INVENTORY</h1>
+
+<div id="edit-form" style="display: none;">
+
+    <!-- Display the item name above the form -->
+    <p id="item-name-display"></p> <!-- This is where the item name will be displayed -->
+    
+    <form method="POST" action="/update_inventory">
+        <input type="hidden" id="item_id" name="item_id">
+        <input type="number" id="stock_level" name="stock_level" placeholder="Stock Level" required>
+        <button type="submit">Update Inventory</button>
+        <button type="button" onclick="cancelEdit()">Cancel</button>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Stock Level</th>
+        <th>Last Updated</th>
+        <th>Actions</th>
+    </tr>
+    {% for item in inventory_items %}
+    <tr>
+        <td>{{ item[0] }}</td>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>
+            <!-- Edit button for inventory items -->
+            <button type="button" onclick="editInventory('{{ item[0] }}', '{{ item[1] }}', '{{ item[2] }}')">Edit</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Edit inventory form (hidden by default) -->
+
+
+<script>
+    // Function to show the edit form and display the item name
+    function editInventory(itemId, itemName, stockLevel) {
+        // Set the values of the form fields to the item data
+        document.getElementById('edit-form').style.display = 'block';
+        document.getElementById('item_id').value = itemId;
+        document.getElementById('stock_level').value = stockLevel;
+        
+        // Display the item name above the form
+        document.getElementById('item-name-display').innerText = itemName;
+    }
+
+    // Function to hide the edit form
+    function cancelEdit() {
+        document.getElementById('edit-form').style.display = 'none';
+    }
+</script>
+
+{% endblock %}
